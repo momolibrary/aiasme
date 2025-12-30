@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-索引更新脚本 - 自动扫描 references 目录下的所有 Markdown 文件，
+索引更新脚本 - 自动扫描 memory 目录下的所有 Markdown 文件，
 提取二级标题（## 标题），生成或更新 INDEX.md 文件
 """
 import os
@@ -24,48 +24,58 @@ def extract_headers(filepath):
 
 def build_index():
     """构建索引内容"""
+    # 从项目根目录开始查找
+    # scripts -> memo -> skills -> .claude -> project_root
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    refs_dir = os.path.join(script_dir, '..', 'references')
-    pattern = os.path.join(refs_dir, '*.md')
+    project_root = os.path.abspath(os.path.join(script_dir, '..', '..', '..', '..'))
+    memory_dir = os.path.join(project_root, 'memory')
 
-    files = sorted(glob.glob(pattern))
-
-    # 排除 INDEX.md 本身
-    files = [f for f in files if os.path.basename(f) != 'INDEX.md']
+    # 扫描所有子目录
+    subdirs = ['calendar', 'docs', 'events', 'people', 'ideas', 'deliverables']
 
     index_content = [
-        "# 记忆库索引\n",
-        f"*最后更新: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n",
-        "\n---\n\n"
+        "# Memory Index\n\n",
+        f"> 自动生成的记忆库索引文件\n",
+        f"> Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
     ]
 
-    if not files:
-        index_content.append("目前记忆库为空。\n")
-    else:
-        for filepath in files:
-            filename = os.path.basename(filepath)
-            basename = os.path.splitext(filename)[0]
-            headers = extract_headers(filepath)
+    for subdir in subdirs:
+        subdir_path = os.path.join(memory_dir, subdir)
+        if not os.path.exists(subdir_path):
+            continue
 
-            index_content.append(f"## {basename}\n")
-            index_content.append(f"文件: `{filename}`\n\n")
+        pattern = os.path.join(subdir_path, '**/*.md')
+        files = sorted(glob.glob(pattern, recursive=True))
 
-            if headers:
-                index_content.append("包含主题:\n")
-                for header in headers:
-                    index_content.append(f"- {header}\n")
-            else:
-                index_content.append("*（暂无内容）*\n")
+        if files:
+            index_content.append(f"## 📁 {subdir.capitalize()}\n\n")
+            for filepath in files:
+                rel_path = os.path.relpath(filepath, memory_dir)
+                filename = os.path.basename(filepath)
+                basename = os.path.splitext(filename)[0]
+                headers = extract_headers(filepath)
 
-            index_content.append("\n")
+                index_content.append(f"### {basename}\n")
+                index_content.append(f"- 文件: `{rel_path}`\n")
+
+                if headers:
+                    index_content.append("- 包含主题:\n")
+                    for header in headers[:5]:  # 只显示前5个标题
+                        index_content.append(f"  - {header}\n")
+
+                index_content.append("\n")
+
+            index_content.append("---\n\n")
 
     return ''.join(index_content)
 
 def main():
     """主函数"""
+    # scripts -> memo -> skills -> .claude -> project_root
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    refs_dir = os.path.join(script_dir, '..', 'references')
-    index_path = os.path.join(refs_dir, 'INDEX.md')
+    project_root = os.path.abspath(os.path.join(script_dir, '..', '..', '..', '..'))
+    memory_dir = os.path.join(project_root, 'memory')
+    index_path = os.path.join(memory_dir, 'INDEX.md')
 
     # 生成索引内容
     content = build_index()

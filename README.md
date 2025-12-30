@@ -21,9 +21,8 @@
 ## 项目结构
 
 ```text
-.claude/skills/memo/
-├─ SKILL.md                    # Skill 入口定义
-├─ memory/                     # 记忆库主目录
+aiasme/                        # 项目根目录
+├─ memory/                     # 记忆库主目录 (根目录)
 │  ├─ INDEX.md                 # 自动生成的全局索引
 │  ├─ calendar/                # 每日工作流水 (文件名: YYYY-MM-DD.md)
 │  ├─ docs/                    # 工作文档记录 (文件名建议: YYYY-MM-文档主题.md)
@@ -35,21 +34,23 @@
 │  │  └─ profiles/             # (可选) 重要人物的详细画像
 │  ├─ ideas/                   # 想法与灵感
 │  └─ deliverables/            # 交付物管理 (按项目或Idea分类的文件夹)
-├─ scripts/
-│  ├─ search.py                # 全文检索脚本
-│  ├─ update_index.py          # 索引更新脚本
-│  └─ validate_people.py       # (建议) 人员姓名校验脚本
-└─ assets/
-   ├─ template_doc.md          # 文档记录模板
-   ├─ template_event.md        # 事件记录模板
-   └─ template_idea.md         # Idea 模板
+└─ .claude/skills/memo/
+   ├─ SKILL.md                 # Skill 入口定义
+   ├─ scripts/
+   │  ├─ search.py             # 全文检索脚本
+   │  ├─ update_index.py       # 索引更新脚本
+   │  └─ validate_people.py    # (建议) 人员姓名校验脚本
+   └─ assets/
+      ├─ template_doc.md       # 文档记录模板
+      ├─ template_event.md     # 事件记录模板
+      └─ template_idea.md      # Idea 模板
 ```
 
 ## 快速开始
 
 ### 1. 初始化
 
-确保 `.claude/skills/memo/memory` 下的目录结构已创建。
+确保项目根目录下的 `memory/` 目录结构已创建。
 
 ### 2. 在 Claude 对话中使用
 
