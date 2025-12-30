@@ -1,92 +1,108 @@
-# aiasme
+# 记忆库 Skill for Claude Code
 
+基于 Claude Code 的个人/项目记忆库系统，通过 Markdown 文件管理知识，支持全文检索、智能索引和动态更新。
 
+## 功能特性
 
-## Getting started
+- **全文检索**: 快速在所有记忆中查找关键词
+- **智能索引**: 自动扫描并更新记忆库目录
+- **Markdown 原生**: 纯文本格式，Git 友好，易于版本管理
+- **Claude 集成**: 通过 Skill 在对话中随时调用记忆库
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+## 项目结构
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.chehejia.com/vrdos/pm_test/aiasme.git
-git branch -M master
-git push -uf origin master
+.claude/skills/memo/
+├─ SKILL.md                    # Skill 入口定义
+├─ references/                 # 记忆库主目录
+│  ├─ INDEX.md                 # 自动生成的索引
+│  └─ *.md                     # 各类记忆文件
+├─ scripts/
+│  ├─ search.py                # 全文检索脚本
+│  └─ update_index.py          # 索引更新脚本
+└─ assets/
+   └─ template.md              # 新建条目模板
 ```
 
-## Integrate with your tools
+## 快速开始
 
-- [ ] [Set up project integrations](https://gitlab.chehejia.com/vrdos/pm_test/aiasme/-/settings/integrations)
+### 1. 创建第一个记忆文件
 
-## Collaborate with your team
+```bash
+# 复制模板
+cp .claude/skills/memo/assets/template.md .claude/skills/memo/references/工作技巧.md
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+# 编辑内容
+# ... 在文件中添加你的内容 ...
 
-## Test and Deploy
+# 更新索引
+python .claude/skills/memo/scripts/update_index.py
+```
 
-Use the built-in continuous integration in GitLab.
+### 2. 在 Claude 对话中使用
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```
+# 查询记忆
+@skill memo 查找「Kimi 使用技巧」
 
-***
+# 查看索引
+@skill memo 显示索引
 
-# Editing this README
+# 添加新记忆
+@skill memo 新增条目「Python 调试技巧」内容：使用 pdb.set_trace() 设置断点...
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+# 重建索引
+@skill memo 重建索引
+```
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## 使用场景
 
-## Name
-Choose a self-explaining name for your project.
+- **个人知识库**: 记录工作技巧、学习笔记、常用命令
+- **项目文档**: 保存项目特定的配置、约定、最佳实践
+- **问题解决方案**: 记录遇到的问题和解决方案，避免重复踩坑
+- **代码片段**: 收藏常用代码模板和示例
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## 命令行工具
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### 搜索记忆
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+```bash
+python .claude/skills/memo/scripts/search.py "关键词"
+```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### 更新索引
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+```bash
+python .claude/skills/memo/scripts/update_index.py
+```
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## 最佳实践
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+1. **结构化命名**: 使用清晰的文件名，如 `Python技巧.md`、`Git常用命令.md`
+2. **使用二级标题**: 脚本会自动提取 `##` 标题生成索引
+3. **添加标签**: 在记忆中使用 `#标签` 方便分类和检索
+4. **定期更新**: 修改记忆文件后记得运行 `update_index.py`
+5. **版本控制**: 将记忆库纳入 Git 管理，跟踪知识演进
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## 扩展建议
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+- 添加更多脚本实现高级功能（如标签过滤、日期排序）
+- 集成向量数据库实现语义搜索
+- 添加 Git hooks 自动更新索引
+- 实现 Markdown 内部链接跳转
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## 技术栈
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+- **Claude Code**: AI 辅助编程环境
+- **Claude Skills**: 自定义工具集成
+- **Python 3**: 脚本语言
+- **Markdown**: 文档格式
+- **Git**: 版本控制
 
-## License
-For open source projects, say how it is licensed.
+## 许可证
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+MIT License
+
+---
+
+**开始使用**: 运行 `@skill memo 重建索引` 初始化你的记忆库！
