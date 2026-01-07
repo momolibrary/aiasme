@@ -5,12 +5,32 @@
       "Bash(python .claude/skills/memo/scripts/update_index.py:*)",
       "Bash(python3:*)",
       "Bash(tree:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Skill(memo)",
+      "Skill(feishu_reader)",
+      "Skill(feishu_project)",
       "Bash(gh repo create:*)",
       "Bash(git remote add:*)",
       "Bash(git push:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(mkdir:*)",
+      "Bash(cat:*)",
+      "Read(//Users/zhuangdesheng/.claude/feishu/**)",
+      "WebFetch(domain:li.feishu.cn)",
+      "Bash(python3 .claude/skills/feishu_reader/feishu_reader.py*)",
+      "mcp__feishu_project__*",
+      "Bash(env)",
+      "Bash(claude mcp:*)",
+      "mcp__feishu-project__*",
+      "mcp__feishu-project__get_workitem_brief",
+      "mcp__feishu-project__get_workitem_info",
+      "mcp__feishu-project__create_workitem",
+      "mcp__feishu-project__update_field",
+      "Bash(cp:*)"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enableAllProjectMcpServers": true
 }
