@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "websearch": {
+      "type": "stdio",
+      "command": "ept",
+      "args": [
+        "mcp",
+        "websearch"
+      ],
+      "env": {}
+    },
+    "doc-parser": {
+      "command": "python3",
+      "args": [
+        ".claude/skills/doc_parser/doc_parser_launcher.py"
+      ],
+      "env": {
+        "USER_NAME": "zhuangdesheng"
+      }
+    }
+  }
+}
